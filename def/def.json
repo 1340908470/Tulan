@@ -1,0 +1,71 @@
+{
+    "processes": [
+        {
+            "name": "群发通知",
+            "trigger": {
+                "keywords": [
+                    "群发通知"
+                ],
+                "guide_index": 1
+            },
+            "guides": [
+                {
+                    "index": 1,
+                    "message": {
+                        "chat_id": "667*************032",
+                        "msg_type": "interactive",
+                        "card": {
+                            "elements": [
+                                {
+                                    "tag": "div",
+                                    "text": {
+                                        "tag": "plain_text",
+                                        "content": "Content module"
+                                    },
+                                    "fields": [
+                                        {
+                                            "is_short": false,
+                                            "text": {
+                                                "tag": "lark_md",
+                                                "content": "**module:**\nContent module（div）"
+                                            }
+                                        },
+                                        {
+                                            "is_short": false,
+                                            "text": {
+                                                "tag": "lark_md",
+                                                "content": "**function:**\nNew function"
+                                            }
+                                        }
+                                    ],
+                                    "extra": {
+                                        "tag": "img",
+                                        "img_key": "f32******************5cf7",
+                                        "alt": {
+                                            "tag": "plain_text",
+                                            "content": "alt_content"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "success_handle_index": 1
+                }
+            ],
+            "handles": [
+                {
+                    "index": 1,
+                    "handler": "对于用户输入的处理方式",
+                    "handler_paras": [
+                        "value_name_1",
+                        "value_name_2"
+                    ],
+                    "value_name": "处理后值的变量名",
+                    "success_guide_index": 2,
+                    "failed_guide_index": 0
+                }
+            ]
+        }
+    ]
+}
