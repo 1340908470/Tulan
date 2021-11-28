@@ -87,9 +87,11 @@ func SendMessageTrigger(messageEvent MessageEvent, processName string) {
 							Tag:     "plain_text",
 							Content: "😁  是的",
 						},
-						Url:   "http://114.115.134.131:8081/feishu/event", // TODO: 添加按钮处理响应
-						Type:  "default",
-						Value: model.MessageContentButtonValue{},
+						Type: "default",
+						Value: model.MessageContentButtonValue{
+							Key:   "trigger_action",
+							Value: "yes",
+						},
 					},
 				},
 				{
@@ -99,9 +101,11 @@ func SendMessageTrigger(messageEvent MessageEvent, processName string) {
 							Tag:     "plain_text",
 							Content: "😢  不是",
 						},
-						Url:   "http://114.115.134.131:8081/feishu/event",
-						Type:  "default",
-						Value: model.MessageContentButtonValue{},
+						Type: "default",
+						Value: model.MessageContentButtonValue{
+							Key:   "trigger_action",
+							Value: "no",
+						},
 					},
 				},
 			},

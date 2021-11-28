@@ -23,7 +23,11 @@ func main() {
 		c.String(200, "Hello, World")
 	})
 
+	// 处理订阅等事件，如接收到用户发来的消息
 	r.POST("/feishu/event", handlerFunc.EventHandlerFunc)
+
+	// 处理交互，如用户点击消息卡片中的按钮
+	r.POST("feishu/action", handlerFunc.ActionHandlerFunc)
 
 	err = r.Run(":8081") // listen and serve on 0.0.0.0:8080
 	if err != nil {
