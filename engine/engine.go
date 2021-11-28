@@ -10,12 +10,16 @@ type DispatchCenter struct {
 	Session map[string]SessionCtx // 以 user_id 为键，为每一个用户维护一个会话上下文
 }
 
+var GUIDE = "guide"
+var HANDLE = "handle"
+var WAIT = "wait"
+
 // SessionCtx 会话上下文
 type SessionCtx struct {
 	LastTime    string            // 用户上一次操作的时间，格式为时间戳，如 1638018223137，如果当前时间已过30分钟，则会重置
 	ProcessName string            // 当前会话进入了哪一个 process
 	Params      map[string]string // 当前会话的参数列表
-	NowType     string            // 当前在 process 中的类型："guide" | "handle"
+	NowType     string            // 当前在 process 中的类型："guide" | "handle" ｜ "wait"，wait为等待用户接受开始事务
 	NowIndex    int               // 当前处于 guides[NowIndex] | handles[NowIndex]
 }
 
@@ -25,23 +29,53 @@ func InitDispatchCenter() {
 	dispatchCenter.Session = make(map[string]SessionCtx)
 }
 
-// GetSessionCtx 根据用户id获取会话上下文
-func GetSessionCtx(userId string) SessionCtx {
+// GetSessionCtx 根据用户id获取会话上下文, 返回上下文以及是否是新上下文
+func GetSessionCtx(userId string) (SessionCtx, bool) {
+	isNew := false
 	sessionCtx, ok := dispatchCenter.Session[userId]
 	// 如果还没有创建过会话 或者 已经过期了，则会根据message的内容，在session中更新ctx
 	now := time.Now().UnixNano() / 1e6
 	lastTime, _ := strconv.ParseInt(sessionCtx.LastTime, 10, 64)
 	if !ok || now-lastTime > 30*60*1000 {
-		// TODO: 会话过期等导致等创建新的process应向用户发送一段提示消息
-
-		// TODO: 通过engine/trigger提供等函数，解析消息并得到对应的process
-
-		dispatchCenter.Session[userId] = SessionCtx{
+		isNew = true
+		sessionCtx = SessionCtx{
 			LastTime:    strconv.FormatInt(now, 10),
 			ProcessName: "",
-			Params:      nil,
+			Params:      make(map[string]string),
 			NowType:     "",
 			NowIndex:    0,
 		}
+		dispatchCenter.Session[userId] = sessionCtx
+	}
+
+	return sessionCtx, isNew
+}
+
+// UpdateSessionCtx 更新上下文，每次用户进行完操作后，都会更新一次上下文; 函数会更新入参的非空字段
+func UpdateSessionCtx(userId string, sessionCtx SessionCtx) {
+	processName := dispatchCenter.Session[userId].ProcessName
+	params := dispatchCenter.Session[userId].Params
+	nowType := dispatchCenter.Session[userId].NowType
+	nowIndex := dispatchCenter.Session[userId].NowIndex
+
+	if sessionCtx.ProcessName != "" {
+		processName = sessionCtx.ProcessName
+	}
+	for key, val := range sessionCtx.Params {
+		params[key] = val
+	}
+	if sessionCtx.NowType != "" {
+		nowType = sessionCtx.NowType
+	}
+	if sessionCtx.NowIndex != 0 {
+		nowIndex = sessionCtx.NowIndex
+	}
+
+	dispatchCenter.Session[userId] = SessionCtx{
+		LastTime:    dispatchCenter.Session[userId].LastTime,
+		ProcessName: processName,
+		Params:      params,
+		NowType:     nowType,
+		NowIndex:    nowIndex,
 	}
 }

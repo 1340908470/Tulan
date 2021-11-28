@@ -1,0 +1,49 @@
+{
+  "config": {
+    "wide_screen_mode": true
+  },
+  "elements": [
+    {
+      "tag": "div",
+      "text": {
+        "content": "您触发了图蓝事务：**创建活动**，是吗？",
+        "tag": "lark_md"
+      }
+    },
+    {
+      "tag": "action",
+      "actions": [
+        {
+          "tag": "button",
+          "text": {
+            "content": "😁  是的",
+            "tag": "plain_text"
+          },
+          "type": "default",
+          "value": {
+            "key1": "value1"
+          }
+        },
+        {
+          "tag": "button",
+          "text": {
+            "content": "😢  不是",
+            "tag": "plain_text"
+          },
+          "type": "default",
+          "value": {
+            "key2": "value2"
+          }
+        }
+      ]
+    }
+  ],
+  "header": {
+    "template": "turquoise",
+    "title": {
+      "content": "🤖️ 触发图蓝事务",
+      "tag": "plain_text"
+    }
+  }
+}
+

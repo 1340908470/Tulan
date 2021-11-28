@@ -9,17 +9,22 @@ type Def struct {
 	Processes []Process `json:"processes"`
 }
 
+var def Def
+
 func InitDef() error {
 	file, err := ioutil.ReadFile("def/def.json")
 	if err != nil {
 		return err
 	}
 
-	var processes Def
-	err = json.Unmarshal(file, &processes)
+	err = json.Unmarshal(file, &def)
 	if err != nil {
 		return err
 	}
 
 	return err
+}
+
+func GetProcesses() []Process {
+	return def.Processes
 }
