@@ -3,7 +3,7 @@ package main
 import (
 	"dsl/def"
 	"dsl/engine"
-	"dsl/web"
+	"dsl/handlerFunc"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +23,7 @@ func main() {
 		c.String(200, "Hello, World")
 	})
 
-	r.POST("/feishu/event", web.EventHandlerFunc)
+	r.POST("/feishu/event", handlerFunc.EventHandlerFunc)
 
 	err = r.Run(":8081") // listen and serve on 0.0.0.0:8080
 	if err != nil {

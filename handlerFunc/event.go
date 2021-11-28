@@ -1,4 +1,4 @@
-package web
+package handlerFunc
 
 import (
 	"dsl/engine"
@@ -55,7 +55,7 @@ func EventHandlerFunc(c *gin.Context) {
 
 		// 如果是接受到了消息
 		if typ == "im.message.receive_v1" {
-			err := engine.HandleMessageEvent(event.Event)
+			var err = engine.HandleMessageEvent(event.Event)
 			panic(err)
 		}
 	}

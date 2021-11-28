@@ -3,8 +3,10 @@ package engine
 
 import (
 	"dsl/model"
+	"dsl/web"
 	json2 "encoding/json"
 	"errors"
+	"fmt"
 )
 
 type MessageEvent struct {
@@ -56,11 +58,87 @@ func HandleMessageEvent(event map[string]interface{}) error {
 			sessionCtx.NowType = WAIT
 			sessionCtx.ProcessName = process.Name
 			UpdateSessionCtx(messageEvent.Sender.UserId, sessionCtx)
-			// TODO: 给用户发送"触发事务"消息
+			SendMessageTrigger(messageEvent, process.Name)
 		}
 	} else {
 		// 否则，更新状态为 handle 并将消息作为参数传递给 handler
 	}
 
 	return err
+}
+
+// SendMessageTrigger 向用户发送触发事务的消息
+func SendMessageTrigger(messageEvent MessageEvent, processName string) {
+	// 首先添加元素
+	var elements = []model.MessageElement{
+		{
+			Tag: "div",
+			Text: model.MessageContentText{
+				Tag:     "lark_md",
+				Content: fmt.Sprintf("您触发了图蓝事务：**%v**，是吗？", processName),
+			},
+		}, {
+			Tag: "action",
+			Actions: []model.MessageElementAction{
+				{
+					MessageContentButton: model.MessageContentButton{
+						Tag: "button",
+						Text: model.MessageContentText{
+							Tag:     "plain_text",
+							Content: "😁  是的",
+						},
+						Url:   "http://114.115.134.131:8081/feishu/event", // TODO: 添加按钮处理响应
+						Type:  "default",
+						Value: model.MessageContentButtonValue{},
+					},
+				},
+				{
+					MessageContentButton: model.MessageContentButton{
+						Tag: "button",
+						Text: model.MessageContentText{
+							Tag:     "plain_text",
+							Content: "😢  不是",
+						},
+						Url:   "http://114.115.134.131:8081/feishu/event",
+						Type:  "default",
+						Value: model.MessageContentButtonValue{},
+					},
+				},
+			},
+		},
+	}
+
+	message := model.Message{
+		ChatId:  messageEvent.Message.ChatId,
+		MsgType: "interactive",
+		Card: model.MessageCard{
+			Config: model.MessageCardConfig{
+				EnableForward: false, // 禁止转发
+			},
+			Header: model.MessageCardHeader{
+				Template: "turquoise",
+				Title: model.MessageCardHeaderTitle{
+					Tag:     "plain_text",
+					Content: "🤖️ 触发图蓝事务",
+				},
+			},
+			Elements: elements,
+		},
+	}
+
+	paras := make(map[string]string)
+	paras["receive_id_type"] = "user_id"
+
+	json := web.Request(web.ApiSendMessageCard, message, paras)
+	var res web.ApiSendMessageCardRes
+	json2.Unmarshal(json, &res)
+
+	json, err := json2.Marshal(message)
+	if err != nil {
+		return
+	}
+	str := string(json)
+	print(str)
+
+	print(res.Msg)
 }

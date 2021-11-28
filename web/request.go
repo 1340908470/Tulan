@@ -3,28 +3,40 @@ package web
 import (
 	"bytes"
 	json2 "encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"time"
 )
 
-var appId = os.Getenv("FEISHU_TULAN_APPID")
-var appSecret = os.Getenv("FEISHU_TULAN_APPSECRET")
+var appId = "cli_a128a2cdb838d00e"
+var appSecret = "bUO4olqjZKkWua4KocwPDeJIzqFOQJr0"
 
 var tokenTime int64 = 0
 var tenantAccessToken = ""
 
-func sendRequest(api string, req interface{}, header map[string]string) interface{} {
+func sendRequest(api string, req interface{}, header map[string]string, paras map[string]string) []byte {
 	json, _ := json2.Marshal(req)
 	request, err := http.NewRequest("POST", api, bytes.NewReader(json))
 	if err != nil {
 		panic(err)
 	}
+
+	// 添加头
 	for key, value := range header {
 		request.Header.Set(key, value)
 	}
 	request.Header.Set("Content-Type", "application/json")
+
+	if len(paras) > 0 {
+		// 添加查询参数
+		query := request.URL.Query()
+		for key, value := range paras {
+			query.Add(key, value)
+		}
+		request.URL.RawQuery = query.Encode()
+	}
+
 	client := &http.Client{}
 	resp, err := client.Do(request)
 	if err != nil {
@@ -35,19 +47,7 @@ func sendRequest(api string, req interface{}, header map[string]string) interfac
 	return res
 }
 
-type ApiTenantAccessTokenReq struct {
-	AppId     string `json:"app_id"`
-	AppSecret string `json:"app_secret"`
-}
-
-type ApiTenantAccessTokenRes struct {
-	Code              int    `json:"code"`
-	Msg               string `json:"msg"`
-	TenantAccessToken string `json:"tenant_access_token"`
-	Expire            int    `json:"expire"`
-}
-
-func Request(api string, req interface{}) interface{} {
+func Request(api string, req interface{}, paras map[string]string) []byte {
 	// 首先判断token是否过期
 	now := time.Now().UnixNano() / 1e6
 	// 以 1.5h 为过期期限
@@ -57,13 +57,15 @@ func Request(api string, req interface{}) interface{} {
 			AppSecret: appSecret,
 		}
 		header := make(map[string]string)
-		tokenRes := sendRequest(ApiTenantAccessToken, tokenReq, header).(ApiTenantAccessTokenRes)
+		var tokenRes ApiTenantAccessTokenRes
+		json := sendRequest(ApiTenantAccessToken, tokenReq, header, make(map[string]string))
+		json2.Unmarshal(json, &tokenRes)
 		tenantAccessToken = tokenRes.TenantAccessToken
 	}
 
 	// 然后正式进行请求
 	header := make(map[string]string)
-	header["Authorization"] = tenantAccessToken
-	res := sendRequest(api, req, header)
+	header["Authorization"] = fmt.Sprintf("Bearer %v", tenantAccessToken)
+	res := sendRequest(api, req, header, paras)
 	return res
 }
