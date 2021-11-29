@@ -3,34 +3,34 @@ package model
 
 // Message 消息
 type Message struct {
-	ChatId  string      `json:"chat_id"`
-	MsgType string      `json:"msg_type"`
-	RootId  string      `json:"root_id"`
-	Card    MessageCard `json:"card"`
+	ChatId  string      `json:"chat_id,omitempty"`
+	MsgType string      `json:"msg_type,omitempty"`
+	RootId  string      `json:"root_id,omitempty"`
+	Card    MessageCard `json:"card,omitempty"`
 }
 
 // MessageCard 消息卡片
 type MessageCard struct {
-	Config   MessageCardConfig `json:"config"`
-	Header   MessageCardHeader `json:"header"`
-	Elements []MessageElement  `json:"elements"`
+	Config   MessageCardConfig `json:"config,omitempty"`
+	Header   MessageCardHeader `json:"header,omitempty"`
+	Elements []MessageElement  `json:"elements,omitempty"`
 }
 
 // MessageCardConfig 描述消息卡片的功能属性
 type MessageCardConfig struct {
-	EnableForward bool `json:"enable_forward"` //是否允许卡片被转发
-	UpdateMulti   bool `json:"update_multi"`   //更新卡片的内容是否对所有收到这张卡片的人员可见，默认为false，即仅操作用户可见卡片的更新内容。
+	EnableForward bool `json:"enable_forward,omitempty"` //是否允许卡片被转发
+	UpdateMulti   bool `json:"update_multi,omitempty"`   //更新卡片的内容是否对所有收到这张卡片的人员可见，默认为false，即仅操作用户可见卡片的更新内容。
 }
 
 // MessageCardHeader 用于配置卡片的标题内容
 type MessageCardHeader struct {
-	Template string                 `json:"template"`
-	Title    MessageCardHeaderTitle `json:"title"`
+	Template string                 `json:"template,omitempty"`
+	Title    MessageCardHeaderTitle `json:"title,omitempty"`
 }
 
 type MessageCardHeaderTitle struct {
-	Tag     string `json:"tag"`
-	Content string `json:"content"`
+	Tag     string `json:"tag,omitempty"`
+	Content string `json:"content,omitempty"`
 }
 
 // MessageElement 用于定义卡片的正文内容
@@ -48,7 +48,7 @@ type MessageElement struct {
 	//Extra  MessageElementExtra   `json:"extra,omitempty"` // 可选，附加的元素展示在文本内容右侧
 
 	// 交互模块 Tag = "action"
-	Actions []MessageElementAction `json:"actions"`
+	Actions []MessageElementAction `json:"actions,omitempty"`
 	// TODO：还有图片模块、交互模块没写
 }
 

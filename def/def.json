@@ -56,6 +56,48 @@
                             "tag": "plain_text"
                         }
                     }
+                },
+                "trigger_cancel_card": {
+                    "config": {
+                        "wide_screen_mode": true
+                    },
+                    "elements": [
+                        {
+                            "tag": "div",
+                            "text": {
+                                "content": "您已取消图蓝事务：**@@process_name@@**",
+                                "tag": "lark_md"
+                            }
+                        }
+                    ],
+                    "header": {
+                        "template": "grey",
+                        "title": {
+                            "content": "🤖️  取消图蓝事务",
+                            "tag": "plain_text"
+                        }
+                    }
+                },
+                "trigger_confirm_card": {
+                    "config": {
+                        "wide_screen_mode": true
+                    },
+                    "elements": [
+                        {
+                            "tag": "div",
+                            "text": {
+                                "content": "您开启了图蓝事务：**@@process_name@@**",
+                                "tag": "lark_md"
+                            }
+                        }
+                    ],
+                    "header": {
+                        "template": "blue",
+                        "title": {
+                            "content": "🤖️  开启图蓝事务",
+                            "tag": "plain_text"
+                        }
+                    }
                 }
             },
             "guides": [
@@ -65,39 +107,25 @@
                         "chat_id": "667*************032",
                         "msg_type": "interactive",
                         "card": {
+                            "config": {
+                                "wide_screen_mode": true
+                            },
                             "elements": [
                                 {
                                     "tag": "div",
                                     "text": {
-                                        "tag": "plain_text",
-                                        "content": "Content module"
-                                    },
-                                    "fields": [
-                                        {
-                                            "is_short": false,
-                                            "text": {
-                                                "tag": "lark_md",
-                                                "content": "**module:**\nContent module（div）"
-                                            }
-                                        },
-                                        {
-                                            "is_short": false,
-                                            "text": {
-                                                "tag": "lark_md",
-                                                "content": "**function:**\nNew function"
-                                            }
-                                        }
-                                    ],
-                                    "extra": {
-                                        "tag": "img",
-                                        "img_key": "f32******************5cf7",
-                                        "alt": {
-                                            "tag": "plain_text",
-                                            "content": "alt_content"
-                                        }
+                                        "content": "您开启了图蓝事务：**@@process_name@@**",
+                                        "tag": "lark_md"
                                     }
                                 }
-                            ]
+                            ],
+                            "header": {
+                                "template": "blue",
+                                "title": {
+                                    "content": "🤖️  开启图蓝事务",
+                                    "tag": "plain_text"
+                                }
+                            }
                         }
                     },
                     "success_handle_index": 1

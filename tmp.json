@@ -1,0 +1,23 @@
+{
+  "config": {
+    "enable_forward": false,
+    "update_multi": false
+  },
+  "header": {
+    "template": "grey",
+    "title": {
+      "tag": "plain_text",
+      "content": "🤖️  取消图蓝事务"
+    }
+  },
+  "elements": [
+    {
+      "tag": "div",
+      "text": {
+        "tag": "lark_md",
+        "content": "您已取消图蓝事务：**@@process_name@@**"
+      },
+      "actions": null
+    }
+  ]
+}

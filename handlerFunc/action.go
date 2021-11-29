@@ -32,6 +32,6 @@ func ActionHandlerFunc(c *gin.Context) {
 			Key:           json["action"].(map[string]interface{})["value"].(map[string]interface{})["key"].(string),
 			Value:         json["action"].(map[string]interface{})["value"].(map[string]interface{})["value"].(string),
 		}
-		engine.HandleAction(action)
+		engine.HandleAction(c, action)
 	}
 }
