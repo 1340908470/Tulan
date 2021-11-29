@@ -2,16 +2,24 @@
 package engine
 
 import (
+	"dsl/def"
 	"dsl/model"
 	"dsl/web"
 	json2 "encoding/json"
 	"errors"
 	"fmt"
+	"regexp"
 )
 
 type MessageEvent struct {
-	Sender  model.UserKey       `json:"sender"`
+	Sender  MessageEventSender  `json:"sender"`
 	Message MessageEventMessage `json:"message"`
+}
+
+type MessageEventSender struct {
+	SenderId   model.UserKey `json:"sender_id"`
+	SenderType string        `json:"sender_type"`
+	TenantKey  string        `json:"tenant_key"`
 }
 
 type MessageEventMessage struct {
@@ -48,17 +56,20 @@ func HandleMessageEvent(event map[string]interface{}) error {
 	// TODO: 通过engine/trigger提供等函数，解析消息并得到对应的process
 
 	// 根据 sender 获取对应的上下文
-	sessionCtx, isNew := GetSessionCtx(messageEvent.Sender.UserId)
+	sessionCtx, isNew := GetSessionCtx(messageEvent.Sender.SenderId.UserId)
 	if isNew {
 		// 如果是新上下文，则应该：触发trigger - 找到process - 设置状态为wait - 给用户发送"触发事务"消息
 		// TODO：处理用户 "触发事务"消息 的响应，接受则更新上下文，并进入首个guide；否则不进行任何操作；更新卡片内容
-		process, isFound := FindProcess(messageEvent.Message.Content)
+		process, processIndex, isFound := FindProcess(messageEvent.Message.Content)
 		// 如果没有找到，则不应发送触发事务的消息；否则设置上下文状态
 		if isFound {
 			sessionCtx.NowType = WAIT
 			sessionCtx.ProcessName = process.Name
-			UpdateSessionCtx(messageEvent.Sender.UserId, sessionCtx)
-			SendMessageTrigger(messageEvent, process.Name)
+			sessionCtx.ProcessIndex = processIndex
+			// 同时将processName加入到参数列表里
+			sessionCtx.Params["process_name"] = process.Name
+			UpdateSessionCtx(messageEvent.Sender.SenderId.UserId, sessionCtx)
+			SendMessageTrigger(messageEvent)
 		}
 	} else {
 		// 否则，更新状态为 handle 并将消息作为参数传递给 handler
@@ -68,66 +79,23 @@ func HandleMessageEvent(event map[string]interface{}) error {
 }
 
 // SendMessageTrigger 向用户发送触发事务的消息
-func SendMessageTrigger(messageEvent MessageEvent, processName string) {
-	// 首先添加元素
-	var elements = []model.MessageElement{
-		{
-			Tag: "div",
-			Text: model.MessageContentText{
-				Tag:     "lark_md",
-				Content: fmt.Sprintf("您触发了图蓝事务：**%v**，是吗？", processName),
-			},
-		}, {
-			Tag: "action",
-			Actions: []model.MessageElementAction{
-				{
-					MessageContentButton: model.MessageContentButton{
-						Tag: "button",
-						Text: model.MessageContentText{
-							Tag:     "plain_text",
-							Content: "😁  是的",
-						},
-						Type: "default",
-						Value: model.MessageContentButtonValue{
-							Key:   "trigger_action",
-							Value: "yes",
-						},
-					},
-				},
-				{
-					MessageContentButton: model.MessageContentButton{
-						Tag: "button",
-						Text: model.MessageContentText{
-							Tag:     "plain_text",
-							Content: "😢  不是",
-						},
-						Type: "default",
-						Value: model.MessageContentButtonValue{
-							Key:   "trigger_action",
-							Value: "no",
-						},
-					},
-				},
-			},
-		},
+func SendMessageTrigger(messageEvent MessageEvent) {
+	sessionCtx, _ := GetSessionCtx(messageEvent.Sender.SenderId.UserId)
+	print(sessionCtx.Params["process_name"])
+
+	process := def.GetProcesses()[sessionCtx.ProcessIndex]
+	file, _ := json2.Marshal(process.Trigger.TriggerCard)
+	ParseJson(&file, messageEvent.Sender.SenderId.UserId)
+	var messageCard model.MessageCard
+	err := json2.Unmarshal(file, &messageCard)
+	if err != nil {
+		return
 	}
 
 	message := model.Message{
 		ChatId:  messageEvent.Message.ChatId,
 		MsgType: "interactive",
-		Card: model.MessageCard{
-			Config: model.MessageCardConfig{
-				EnableForward: false, // 禁止转发
-			},
-			Header: model.MessageCardHeader{
-				Template: "turquoise",
-				Title: model.MessageCardHeaderTitle{
-					Tag:     "plain_text",
-					Content: "🤖️ 触发图蓝事务",
-				},
-			},
-			Elements: elements,
-		},
+		Card:    messageCard,
 	}
 
 	paras := make(map[string]string)
@@ -137,12 +105,23 @@ func SendMessageTrigger(messageEvent MessageEvent, processName string) {
 	var res web.ApiSendMessageCardRes
 	json2.Unmarshal(json, &res)
 
-	json, err := json2.Marshal(message)
+	json, err = json2.Marshal(message)
 	if err != nil {
 		return
 	}
-	str := string(json)
-	print(str)
+}
 
-	print(res.Msg)
+func ParseJson(json *[]byte, userId string) {
+	str := string(*json)
+	r, _ := regexp.Compile("@@[\\s\\S]*?@@")
+	indexes := r.FindAllIndex(*json, -1)
+	sessionCtx, _ := GetSessionCtx(userId)
+	for _, index := range indexes {
+		for key, value := range sessionCtx.Params {
+			if index[1]-index[0] > 3 && str[index[0]+2:index[1]-2] == key {
+				str = fmt.Sprintf("%v%v%v", str[:index[0]], value, str[index[1]:])
+			}
+		}
+	}
+	*json = []byte(str)
 }

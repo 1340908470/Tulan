@@ -6,7 +6,57 @@
                 "keywords": [
                     "群发通知"
                 ],
-                "guide_index": 1
+                "guide_index": 1,
+                "trigger_card": {
+                    "config": {
+                        "wide_screen_mode": true
+                    },
+                    "elements": [
+                        {
+                            "tag": "div",
+                            "text": {
+                                "content": "您触发了图蓝事务：**@@process_name@@**，是吗？",
+                                "tag": "lark_md"
+                            }
+                        },
+                        {
+                            "tag": "action",
+                            "actions": [
+                                {
+                                    "tag": "button",
+                                    "text": {
+                                        "content": "😁  是的",
+                                        "tag": "plain_text"
+                                    },
+                                    "type": "default",
+                                    "value": {
+                                        "key": "trigger_action",
+                                        "value": "yes"
+                                    }
+                                },
+                                {
+                                    "tag": "button",
+                                    "text": {
+                                        "content": "😢  不是",
+                                        "tag": "plain_text"
+                                    },
+                                    "type": "default",
+                                    "value": {
+                                        "key": "trigger_action",
+                                        "value": "no"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "header": {
+                        "template": "turquoise",
+                        "title": {
+                            "content": "🤖️ 触发图蓝事务",
+                            "tag": "plain_text"
+                        }
+                    }
+                }
             },
             "guides": [
                 {
