@@ -27,3 +27,22 @@ type ApiTenantAccessTokenRes struct {
 	TenantAccessToken string `json:"tenant_access_token"`
 	Expire            int    `json:"expire"`
 }
+
+var ApiTranslate = "https://open.feishu.cn/open-apis/translation/v1/text/translate"
+
+type ApiTranslateReq struct {
+	SourceLanguage string `json:"source_language"`
+	Text           string `json:"text"`
+	TargetLanguage string `json:"target_language"`
+	Glossary       []struct {
+		From string `json:"from"`
+		To   string `json:"to"`
+	} `json:"glossary"`
+}
+type ApiTranslateRes struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data struct {
+		Text string `json:"text"`
+	} `json:"data"`
+}

@@ -1,23 +1,11 @@
 {
-  "config": {
-    "enable_forward": false,
-    "update_multi": false
-  },
-  "header": {
-    "template": "grey",
-    "title": {
-      "tag": "plain_text",
-      "content": "🤖️  取消图蓝事务"
-    }
-  },
-  "elements": [
+  "source_language": "zh",
+  "text": "尝试使用一下飞书吧",
+  "target_language": "en",
+  "glossary": [
     {
-      "tag": "div",
-      "text": {
-        "tag": "lark_md",
-        "content": "您已取消图蓝事务：**@@process_name@@**"
-      },
-      "actions": null
+      "from": "飞书",
+      "to": "Lark"
     }
   ]
 }

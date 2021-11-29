@@ -1,10 +1,10 @@
 {
     "processes": [
         {
-            "name": "群发通知",
+            "name": "中文转英文",
             "trigger": {
                 "keywords": [
-                    "群发通知"
+                    "中文转英文", "中转英", "中文转英语", "中文翻译为英文", "中文翻译到英文"
                 ],
                 "guide_index": 1,
                 "trigger_card": {
@@ -65,7 +65,7 @@
                         {
                             "tag": "div",
                             "text": {
-                                "content": "您已取消图蓝事务：**@@process_name@@**",
+                                "content": "您已结束图蓝事务：**@@process_name@@**",
                                 "tag": "lark_md"
                             }
                         }
@@ -73,7 +73,7 @@
                     "header": {
                         "template": "grey",
                         "title": {
-                            "content": "🤖️  取消图蓝事务",
+                            "content": "🤖️  结束图蓝事务",
                             "tag": "plain_text"
                         }
                     }
@@ -111,7 +111,7 @@
                             {
                                 "tag": "div",
                                 "text": {
-                                    "content": "请您输入xxx",
+                                    "content": "请您输入要转换中文文本",
                                     "tag": "lark_md"
                                 }
                             },
@@ -121,7 +121,7 @@
                                     {
                                         "tag": "button",
                                         "text": {
-                                            "content": "取消事务",
+                                            "content": "终止事务",
                                             "tag": "plain_text"
                                         },
                                         "type": "danger",
@@ -142,12 +142,67 @@
                         }
                     },
                     "success_handle_index": 1
+                },
+                {
+                    "index": 2,
+                    "guide_card": {
+                        "config": {
+                            "wide_screen_mode": true
+                        },
+                        "elements": [
+                            {
+                                "tag": "div",
+                                "text": {
+                                    "content": "@@handler_1_value@@",
+                                    "tag": "lark_md"
+                                }
+                            },
+                            {
+                                "tag": "action",
+                                "actions": [
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "继续翻译",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "primary",
+                                        "value": {
+                                            "key": "move_to_guide",
+                                            "value": "1"
+                                        }
+                                    },
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "结束事务",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "danger",
+                                        "value": {
+                                            "key": "trigger_action",
+                                            "value": "no"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "header": {
+                            "template": "green",
+                            "title": {
+                                "content": "🤖️  翻译结果",
+                                "tag": "plain_text"
+                            }
+                        }
+                    },
+                    "success_handle_index": 1
                 }
             ],
             "handles": [
                 {
                     "index": 1,
-                    "handler": "对于用户输入的处理方式",
+                    "handler": "TranslateFromZhToEn",
+                    "params": ["guide_1_response"],
                     "success_guide_index": 2,
                     "failed_guide_index": 0
                 }

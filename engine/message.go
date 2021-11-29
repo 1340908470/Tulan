@@ -33,6 +33,10 @@ type MessageEventMessage struct {
 	Mentions    []MessageEventMessageMention `json:"mentions"`
 }
 
+type MessageEventMessageContent struct {
+	Text string `json:"text"`
+}
+
 // MessageEventMessageMention 被提及用户的信息
 type MessageEventMessageMention struct {
 	Key       string        `json:"key"`
@@ -55,8 +59,10 @@ func HandleMessageEvent(event map[string]interface{}) error {
 	// 根据 sender 获取对应的上下文
 	sessionCtx, isNew := GetSessionCtx(messageEvent.Sender.SenderId.UserId)
 	if isNew {
+		var content MessageEventMessageContent
+		json2.Unmarshal([]byte(messageEvent.Message.Content), &content)
 		// 如果是新上下文，则应该：触发trigger - 找到process - 设置状态为wait - 给用户发送"触发事务"消息
-		process, processIndex, isFound := FindProcess(messageEvent.Message.Content)
+		process, processIndex, isFound := FindProcess(content.Text)
 		// 如果没有找到，则不应发送触发事务的消息；否则设置上下文状态
 		if isFound {
 			sessionCtx.NowType = TYPE_WAIT
@@ -72,7 +78,16 @@ func HandleMessageEvent(event map[string]interface{}) error {
 		// 否则，如果当前上下文处于guide，则将消息内容作为 guide_<index>_response 的值存到 paras 中，并更新状态为 handle，进行处理
 		if sessionCtx.NowType == TYPE_GUIDE {
 			paraKey := fmt.Sprintf("guide_%v_response", sessionCtx.NowIndex)
-			sessionCtx.Params[paraKey] = messageEvent.Message.Content
+			var content MessageEventMessageContent
+			json2.Unmarshal([]byte(messageEvent.Message.Content), &content)
+			sessionCtx.Params[paraKey] = content.Text
+
+			sessionCtx.NowType = TYPE_HANDLE
+			process := def.GetProcesses()[sessionCtx.ProcessIndex]
+			guide, _ := FindGuideByIndex(process, sessionCtx.NowIndex)
+			sessionCtx.NowIndex = guide.SuccessHandleIndex
+			UpdateSessionCtx(messageEvent.Sender.SenderId.UserId, sessionCtx)
+			DoHandle(messageEvent.Sender.SenderId.UserId, sessionCtx)
 		}
 	}
 

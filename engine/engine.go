@@ -20,7 +20,7 @@ type SessionCtx struct {
 	ChatId       string            // 用于找到对应聊天
 	ProcessName  string            // 当前会话进入了哪一个 process
 	ProcessIndex int               // 当前会话的 process 的索引
-	Params       map[string]string // 当前会话的参数列表
+	Params       map[string]string // 当前会话的参数列表，"guide_<index>_response"，"handler_<index>_value"
 	NowType      string            // 当前在 process 中的类型："guide" | "handle" ｜ "wait"，wait为等待用户接受开始事务
 	NowIndex     int               // 当前处于 guides[NowIndex] | handles[NowIndex]
 }

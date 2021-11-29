@@ -6,6 +6,7 @@ import (
 	json2 "encoding/json"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type Action struct {
@@ -58,5 +59,15 @@ func HandleAction(c *gin.Context, action Action) {
 			// 重置上下文，防止卡在状态机的中间，无法触发下一次的trigger
 			ResetSessionCtx(action.UserId)
 		}
+	}
+
+	// 如果字段为 move_to_guide: xxx ，则将当前卡片替换为索引为xxx的卡片
+	if action.Key == "move_to_guide" {
+		sessionCtx, _ := GetSessionCtx(action.UserId)
+		index, _ := strconv.ParseInt(action.Value, 10, 64)
+		// 更新状态到 guide xxx
+		sessionCtx.NowIndex = int(index)
+		UpdateSessionCtx(action.UserId, sessionCtx)
+		SendMessageGuide(action.UserId, int(index))
 	}
 }
