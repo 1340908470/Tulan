@@ -103,28 +103,41 @@
             "guides": [
                 {
                     "index": 1,
-                    "message": {
-                        "chat_id": "667*************032",
-                        "msg_type": "interactive",
-                        "card": {
-                            "config": {
-                                "wide_screen_mode": true
+                    "guide_card": {
+                        "config": {
+                            "wide_screen_mode": true
+                        },
+                        "elements": [
+                            {
+                                "tag": "div",
+                                "text": {
+                                    "content": "请您输入xxx",
+                                    "tag": "lark_md"
+                                }
                             },
-                            "elements": [
-                                {
-                                    "tag": "div",
-                                    "text": {
-                                        "content": "您开启了图蓝事务：**@@process_name@@**",
-                                        "tag": "lark_md"
+                            {
+                                "tag": "action",
+                                "actions": [
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "取消事务",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "danger",
+                                        "value": {
+                                            "key": "trigger_action",
+                                            "value": "no"
+                                        }
                                     }
-                                }
-                            ],
-                            "header": {
-                                "template": "blue",
-                                "title": {
-                                    "content": "🤖️  开启图蓝事务",
-                                    "tag": "plain_text"
-                                }
+                                ]
+                            }
+                        ],
+                        "header": {
+                            "template": "yellow",
+                            "title": {
+                                "content": "🤖️  图蓝事务指引",
+                                "tag": "plain_text"
                             }
                         }
                     },
@@ -135,11 +148,6 @@
                 {
                     "index": 1,
                     "handler": "对于用户输入的处理方式",
-                    "handler_paras": [
-                        "value_name_1",
-                        "value_name_2"
-                    ],
-                    "value_name": "处理后值的变量名",
                     "success_guide_index": 2,
                     "failed_guide_index": 0
                 }

@@ -34,6 +34,13 @@ func HandleAction(c *gin.Context, action Action) {
 				return
 			}
 			c.JSON(http.StatusOK, card)
+
+			// 然后触发第一个guide
+			// 更新上下文
+			sessionCtx.NowType = TYPE_GUIDE
+			sessionCtx.NowIndex = process.Trigger.GuideIndex
+			UpdateSessionCtx(action.UserId, sessionCtx)
+			SendMessageGuide(action.UserId, process.Trigger.GuideIndex)
 		}
 		// 用户取消则重置 sessionCtx
 		if action.Value == "no" {

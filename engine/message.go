@@ -7,6 +7,7 @@ import (
 	"dsl/web"
 	json2 "encoding/json"
 	"errors"
+	"fmt"
 )
 
 type MessageEvent struct {
@@ -51,47 +52,77 @@ func HandleMessageEvent(event map[string]interface{}) error {
 
 	// TODO: 会话过期等导致等创建新的process应向用户发送一段提示消息
 
-	// TODO: 通过engine/trigger提供等函数，解析消息并得到对应的process
-
 	// 根据 sender 获取对应的上下文
 	sessionCtx, isNew := GetSessionCtx(messageEvent.Sender.SenderId.UserId)
 	if isNew {
 		// 如果是新上下文，则应该：触发trigger - 找到process - 设置状态为wait - 给用户发送"触发事务"消息
-		// TODO：处理用户 "触发事务"消息 的响应，接受则更新上下文，并进入首个guide；否则不进行任何操作；更新卡片内容
 		process, processIndex, isFound := FindProcess(messageEvent.Message.Content)
 		// 如果没有找到，则不应发送触发事务的消息；否则设置上下文状态
 		if isFound {
-			sessionCtx.NowType = WAIT
+			sessionCtx.NowType = TYPE_WAIT
 			sessionCtx.ProcessName = process.Name
 			sessionCtx.ProcessIndex = processIndex
 			// 同时将processName加入到参数列表里
 			sessionCtx.Params["process_name"] = process.Name
+			sessionCtx.ChatId = messageEvent.Message.ChatId
 			UpdateSessionCtx(messageEvent.Sender.SenderId.UserId, sessionCtx)
-			SendMessageTrigger(messageEvent)
+			SendMessageTrigger(messageEvent.Sender.SenderId.UserId)
 		}
 	} else {
-		// 否则，更新状态为 handle 并将消息作为参数传递给 handler
+		// 否则，如果当前上下文处于guide，则将消息内容作为 guide_<index>_response 的值存到 paras 中，并更新状态为 handle，进行处理
+		if sessionCtx.NowType == TYPE_GUIDE {
+			paraKey := fmt.Sprintf("guide_%v_response", sessionCtx.NowIndex)
+			sessionCtx.Params[paraKey] = messageEvent.Message.Content
+		}
 	}
 
 	return err
 }
 
 // SendMessageTrigger 向用户发送触发事务的消息
-func SendMessageTrigger(messageEvent MessageEvent) {
-	sessionCtx, _ := GetSessionCtx(messageEvent.Sender.SenderId.UserId)
-	print(sessionCtx.Params["process_name"])
+func SendMessageTrigger(userId string) {
+	sessionCtx, _ := GetSessionCtx(userId)
 
 	process := def.GetProcesses()[sessionCtx.ProcessIndex]
 	file, _ := json2.Marshal(process.Trigger.TriggerCard)
-	ParseJson(&file, messageEvent.Sender.SenderId.UserId)
+	ParseJson(&file, userId)
+
 	var messageCard model.MessageCard
 	err := json2.Unmarshal(file, &messageCard)
 	if err != nil {
 		return
 	}
 
+	SendMessage(messageCard, sessionCtx.ChatId)
+}
+
+// SendMessageGuide 发送guide中定义的消息
+func SendMessageGuide(userId string, guideIndex int) {
+	sessionCtx, _ := GetSessionCtx(userId)
+
+	process := def.GetProcesses()[sessionCtx.ProcessIndex]
+	var guide def.Guide
+	for _, g := range process.Guides {
+		if g.Index == guideIndex {
+			guide = g
+			break
+		}
+	}
+	file, _ := json2.Marshal(guide.GuideCard)
+	ParseJson(&file, userId)
+
+	var messageCard model.MessageCard
+	err := json2.Unmarshal(file, &messageCard)
+	if err != nil {
+		return
+	}
+
+	SendMessage(messageCard, sessionCtx.ChatId)
+}
+
+func SendMessage(messageCard model.MessageCard, chatId string) {
 	message := model.Message{
-		ChatId:  messageEvent.Message.ChatId,
+		ChatId:  chatId,
 		MsgType: "interactive",
 		Card:    messageCard,
 	}
@@ -103,7 +134,7 @@ func SendMessageTrigger(messageEvent MessageEvent) {
 	var res web.ApiSendMessageCardRes
 	json2.Unmarshal(json, &res)
 
-	json, err = json2.Marshal(message)
+	json, err := json2.Marshal(message)
 	if err != nil {
 		return
 	}

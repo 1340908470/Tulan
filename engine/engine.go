@@ -10,13 +10,14 @@ type DispatchCenter struct {
 	Session map[string]SessionCtx // 以 user_id 为键，为每一个用户维护一个会话上下文
 }
 
-var GUIDE = "guide"
-var HANDLE = "handle"
-var WAIT = "wait"
+var TYPE_GUIDE = "guide"
+var TYPE_HANDLE = "handle"
+var TYPE_WAIT = "wait"
 
 // SessionCtx 会话上下文
 type SessionCtx struct {
 	LastTime     string            // 用户上一次操作的时间，格式为时间戳，如 1638018223137，如果当前时间已过30分钟，则会重置
+	ChatId       string            // 用于找到对应聊天
 	ProcessName  string            // 当前会话进入了哪一个 process
 	ProcessIndex int               // 当前会话的 process 的索引
 	Params       map[string]string // 当前会话的参数列表
@@ -72,6 +73,7 @@ func UpdateSessionCtx(userId string, sessionCtx SessionCtx) {
 	processName := dispatchCenter.Session[userId].ProcessName
 	processIndex := dispatchCenter.Session[userId].ProcessIndex
 	params := dispatchCenter.Session[userId].Params
+	chatId := dispatchCenter.Session[userId].ChatId
 	nowType := dispatchCenter.Session[userId].NowType
 	nowIndex := dispatchCenter.Session[userId].NowIndex
 
@@ -87,6 +89,9 @@ func UpdateSessionCtx(userId string, sessionCtx SessionCtx) {
 	if sessionCtx.NowType != "" {
 		nowType = sessionCtx.NowType
 	}
+	if sessionCtx.ChatId != "" {
+		chatId = sessionCtx.ChatId
+	}
 	if sessionCtx.NowIndex != 0 {
 		nowIndex = sessionCtx.NowIndex
 	}
@@ -95,6 +100,7 @@ func UpdateSessionCtx(userId string, sessionCtx SessionCtx) {
 		LastTime:     dispatchCenter.Session[userId].LastTime,
 		ProcessName:  processName,
 		ProcessIndex: processIndex,
+		ChatId:       chatId,
 		Params:       params,
 		NowType:      nowType,
 		NowIndex:     nowIndex,
