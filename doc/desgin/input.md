@@ -1,41 +1,36 @@
 ```json
 {
-    "process": [
-        {
-            "name": "",
-            "trigger": {
-                "keywords": [
-                    "群发通知",
-                    "群发"
-                ],
-                "guide_index": 1
-            },
-            "guide": [
-                {
-                    "index": 1,
-                    "response_type": "message_box / text",
-                    "response_para": [
-                        "para_1",
-                        "para_2"
-                    ],
-                    "success_handle_index": 1
-                }
-            ],
-            "handle": [
-                {
-                    "index": 1,
-                    "handler": "对于用户输入的处理方式",
-                    "handler_paras": [
-                        "value_name_1",
-                        "value_name_2"
-                    ],
-                    "value_name": "处理后值的变量名",
-                    "success_guide_index": 2,
-                    "failed_guide_index": 0
-                }
-            ]
-        }
-    ]
+  "name": "中文转英文",
+  "trigger": {
+    "keywords": [
+      "中文转英文", "中转英", "中文转英语", "中文翻译为英文", "中文翻译到英文"
+    ],
+    "guide_index": 1,
+    "trigger_card": {},
+    "trigger_cancel_card": {},
+    "trigger_confirm_card": {}
+  },
+  "guides": [
+    {
+      "index": 1,
+      "guide_card": {},
+      "success_handle_index": 1
+    },
+    {
+      "index": 2,
+      "guide_card": {},
+      "success_handle_index": 1
+    }
+  ],
+  "handles": [
+    {
+      "index": 1,
+      "handler": "TranslateFromZhToEn",
+      "params": ["guide_1_response"],
+      "success_guide_index": 2,
+      "failed_guide_index": 0
+    }
+  ]
 }
 ```
 
