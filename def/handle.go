@@ -10,4 +10,7 @@ type Handle struct {
 	Params            []string `json:"params"`
 	SuccessGuideIndex int      `json:"success_guide_index"`
 	FailedGuideIndex  int      `json:"failed_guide_index"`
+
+	// 下一个 handle 的索引，该字段的优先级大于 guideIndex，即当该字段非零时，会接着执行下一个handle，只有当该字段为0时，才会进入指引
+	NextHandleIndex int `json:"next_guide_index"`
 }

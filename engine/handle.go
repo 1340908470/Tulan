@@ -51,13 +51,20 @@ func DoHandle(userId string, c SessionCtx) {
 		c.Params[key] = val.String()
 	}
 
-	// 将状态转移到下一个guide
-	c.NowType = TYPE_GUIDE
-	c.NowIndex = handle.SuccessGuideIndex
-
-	// 更新上下文
-	UpdateSessionCtx(userId, c)
-
-	// 发送guide消息
-	SendMessageGuide(userId, c.NowIndex)
+	// next_guide_index 的优先级高于 guideIndex，判断进入下一个 handle 或 guide
+	if handle.NextHandleIndex == 0 {
+		// 将状态转移到下一个guide
+		c.NowType = TYPE_GUIDE
+		c.NowIndex = handle.SuccessGuideIndex
+		// 更新上下文
+		UpdateSessionCtx(userId, c)
+		// 发送guide消息
+		SendMessageGuide(userId, c.NowIndex)
+	} else {
+		c.NowIndex = handle.NextHandleIndex
+		// 更新上下文
+		UpdateSessionCtx(userId, c)
+		// 继续调用 DoHandle
+		DoHandle(userId, c)
+	}
 }
