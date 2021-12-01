@@ -69,4 +69,4 @@ description: 了解图蓝机器人配置文件的整体结构
 }
 ```
 
-首先可以看到，配置文件的最外层是一个名为`processes`的对象数组，其数组内的每一个元素是一个`process`；每一个`process`由四个字段组成：name
+首先可以看到，配置文件的最外层是一个名为`processes`的对象数组，其数组内的每一个元素是一个`process`；每一个`process`由四个字段组成：名称name、[chu-fa-qi-tigger.md](chu-fa-qi-tigger.md "mention")、[zhi-yin-mo-kuai-guide.md](zhi-yin-mo-kuai-guide.md "mention")和[chu-li-mo-kuai-handle.md](chu-li-mo-kuai-handle.md "mention")
