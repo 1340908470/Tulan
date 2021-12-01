@@ -14,9 +14,7 @@
 > 实现以上功能无需客户端开发经验，飞书已经为卡片消息定义了结构化的组件与样式，通过服务端一段 JSON 描述，即可构造样式精美、可交互的消息卡片。
 
 {% hint style="info" %}
-由于图蓝机器人的消息卡片是基于飞书机器人的，因此你可以通过[飞书消息卡片搭建工具](https://open.feishu.cn/tool/cardbuilder?from=howtoguide)
-
-
+由于图蓝机器人的消息卡片是基于飞书机器人的，因此你可以通过[飞书消息卡片搭建工具](https://open.feishu.cn/tool/cardbuilder?from=howtoguide)快捷搭建消息卡片的基础部分
 {% endhint %}
 
 ## 动态消息卡片
