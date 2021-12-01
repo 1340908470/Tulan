@@ -16,13 +16,13 @@ var TYPE_WAIT = "wait"
 
 // SessionCtx 会话上下文
 type SessionCtx struct {
-	LastTime     string            // 用户上一次操作的时间，格式为时间戳，如 1638018223137，如果当前时间已过30分钟，则会重置
-	ChatId       string            // 用于找到对应聊天
-	ProcessName  string            // 当前会话进入了哪一个 process
-	ProcessIndex int               // 当前会话的 process 的索引
-	Params       map[string]string // 当前会话的参数列表，"guide_<index>_response"，"handler_<index>_value"
-	NowType      string            // 当前在 process 中的类型："guide" | "handle" ｜ "wait"，wait为等待用户接受开始事务
-	NowIndex     int               // 当前处于 guides[NowIndex] | handles[NowIndex]
+	LastTime     string                 // 用户上一次操作的时间，格式为时间戳，如 1638018223137，如果当前时间已过30分钟，则会重置
+	ChatId       string                 // 用于找到对应聊天
+	ProcessName  string                 // 当前会话进入了哪一个 process
+	ProcessIndex int                    // 当前会话的 process 的索引
+	Params       map[string]interface{} // 当前会话的参数列表，"guide_<index>_response"，"handler_<index>_value"
+	NowType      string                 // 当前在 process 中的类型："guide" | "handle" ｜ "wait"，wait为等待用户接受开始事务
+	NowIndex     int                    // 当前处于 guides[NowIndex] | handles[NowIndex]
 }
 
 var dispatchCenter DispatchCenter
@@ -34,7 +34,7 @@ func ResetSessionCtx(userId string) {
 		sessionCtx = SessionCtx{
 			LastTime:    "0",
 			ProcessName: "",
-			Params:      make(map[string]string),
+			Params:      make(map[string]interface{}),
 			NowType:     "",
 			NowIndex:    0,
 		}
@@ -58,7 +58,7 @@ func GetSessionCtx(userId string) (SessionCtx, bool) {
 		sessionCtx = SessionCtx{
 			LastTime:    strconv.FormatInt(now, 10),
 			ProcessName: "",
-			Params:      make(map[string]string),
+			Params:      make(map[string]interface{}),
 			NowType:     "",
 			NowIndex:    0,
 		}
