@@ -2,7 +2,7 @@
 package engine
 
 import (
-	"dsl/def"
+	"Tulan/def"
 	"strings"
 )
 

@@ -1,8 +1,8 @@
 package engine
 
 import (
-	"dsl/def"
-	"dsl/model"
+	"Tulan/def"
+	"Tulan/model"
 	json2 "encoding/json"
 	"github.com/gin-gonic/gin"
 	"net/http"

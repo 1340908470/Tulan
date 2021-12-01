@@ -2,9 +2,9 @@
 package engine
 
 import (
-	"dsl/def"
-	"dsl/model"
-	"dsl/web"
+	"Tulan/def"
+	"Tulan/model"
+	"Tulan/web"
 	json2 "encoding/json"
 	"errors"
 	"fmt"

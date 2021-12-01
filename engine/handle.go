@@ -1,8 +1,8 @@
 package engine
 
 import (
-	"dsl/def"
-	handler2 "dsl/handler"
+	"Tulan/def"
+	handler2 "Tulan/handler"
 	"fmt"
 	"reflect"
 )

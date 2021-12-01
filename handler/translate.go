@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"dsl/web"
+	"Tulan/web"
 	json2 "encoding/json"
 )
 
