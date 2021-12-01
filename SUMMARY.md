@@ -14,10 +14,9 @@
 * [指引模块 guide](pei-zhi-xiang-jie/zhi-yin-mo-kuai-guide.md)
 * [处理模块 handle](pei-zhi-xiang-jie/chu-li-mo-kuai-handle.md)
 
-***
+## ✉ 消息卡片
 
-* [✉ 消息卡片](xiao-xi-ka-pian/README.md)
-  * [概述](xiao-xi-ka-pian/gai-shu.md)
+* [概述](xiao-xi-ka-pian/gai-shu.md)
 
 ## 🤖 机器人元操作
 
