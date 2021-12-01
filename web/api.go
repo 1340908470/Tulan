@@ -1,6 +1,6 @@
 package web
 
-import "dsl/model"
+import "Tulan/model"
 
 // ApiSendMessageCard 给指定用户或者会话发送消息，支持文本、富文本、可交互的消息卡片、群名片、个人名片、图片、视频、音频、文件、表情包。
 var ApiSendMessageCard = "https://open.feishu.cn/open-apis/message/v4/send/"

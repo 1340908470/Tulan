@@ -1,6 +1,6 @@
 package def
 
-import "dsl/model"
+import "Tulan/model"
 
 // Guide 指引，以消息卡片的形式，指引用户进行下一步操作
 type Guide struct {

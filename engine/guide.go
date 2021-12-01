@@ -1,7 +1,7 @@
 package engine
 
 import (
-	"dsl/def"
+	"Tulan/def"
 )
 
 // FindGuideByIndex 通过索引找到guide, 以及是否找到

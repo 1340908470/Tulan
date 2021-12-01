@@ -1,9 +1,9 @@
 package main
 
 import (
-	"dsl/def"
-	"dsl/engine"
-	"dsl/handlerFunc"
+	"Tulan/def"
+	"Tulan/engine"
+	"Tulan/handlerFunc"
 	"github.com/gin-gonic/gin"
 )
 
