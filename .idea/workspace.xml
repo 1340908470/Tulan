@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="26cc34fe-04d1-448a-92ab-b9a1262cddab" name="Changes" comment="feat: handle 可以跳转到 handle" />
+    <list default="true" id="26cc34fe-04d1-448a-92ab-b9a1262cddab" name="Changes" comment="feat: update doc" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -144,7 +144,8 @@
     <MESSAGE value="feat：添加handler，及第一个实例配置：翻译机器人" />
     <MESSAGE value="refactor: 简化 Message 结构" />
     <MESSAGE value="feat: handle 可以跳转到 handle" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: handle 可以跳转到 handle" />
+    <MESSAGE value="feat: update doc" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update doc" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
