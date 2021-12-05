@@ -28,9 +28,9 @@ func (h Handler) TranslateFromZhToEn(text string) string {
 // 之后，可以由用户自定义消息卡片显示翻译结果，或者在之后的 handler 或者 guide 中使用此次的翻译结果
 func (h Handler) TranslateFromEnToZh(text string) string {
 	resJson := web.Request(web.ApiTranslate, web.ApiTranslateReq{
-		SourceLanguage: "zh",
+		SourceLanguage: "en",
 		Text:           text,
-		TargetLanguage: "en",
+		TargetLanguage: "zh",
 	}, nil)
 	var res web.ApiTranslateRes
 	err := json2.Unmarshal(resJson, &res)
