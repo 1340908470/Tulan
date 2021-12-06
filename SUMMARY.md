@@ -17,6 +17,10 @@
 ## ✉ 消息卡片
 
 * [概述](xiao-xi-ka-pian/gai-shu.md)
+* [触发器卡片](xiao-xi-ka-pian/chu-fa-qi-ka-pian/README.md)
+  * [trigger\_card](xiao-xi-ka-pian/chu-fa-qi-ka-pian/trigger\_card.md)
+  * [trigger\_cancel\_card](xiao-xi-ka-pian/chu-fa-qi-ka-pian/trigger\_cancel\_card.md)
+  * [trigger\_confirm\_card](xiao-xi-ka-pian/chu-fa-qi-ka-pian/trigger\_confirm\_card.md)
 
 ## 🤖 机器人元操作
 
