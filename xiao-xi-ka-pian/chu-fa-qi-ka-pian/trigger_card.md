@@ -54,3 +54,17 @@
     }
     }
 ```
+
+
+
+上方卡片在消息界面呈现的效果：
+
+![](../../.gitbook/assets/image.png)
+
+点击“是的”后，消息卡片会变换为`trigger_confirm_card`：
+
+![](<../../.gitbook/assets/image (3).png>)
+
+点击“不是”后，消息卡片会变换为`trigger_cancel_card`：
+
+![](<../../.gitbook/assets/image (1).png>)
