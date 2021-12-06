@@ -3,8 +3,12 @@ package main
 import (
 	"Tulan/def"
 	"Tulan/engine"
+	"Tulan/handler"
 	"Tulan/handlerFunc"
+	"Tulan/model"
 	"github.com/gin-gonic/gin"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -16,6 +20,21 @@ func main() {
 
 	// 初始化dispatchCenter
 	engine.InitDispatchCenter()
+
+	// 初始化db
+	db, err := gorm.Open(sqlite.Open("tulan.db"), &gorm.Config{})
+	if err != nil {
+		panic("数据库初始化失败" + err.Error())
+	}
+
+	// 初始化Model(迁移)
+	err = model.InitModel(db)
+	if err != nil {
+		panic(err)
+	}
+
+	// 初始化handler
+	handler.InitHandler(db)
 
 	r := gin.Default()
 
