@@ -56,9 +56,7 @@
 ```
 
 {% hint style="info" %}
-
-
-
+在典型场景中，`trigger_card`应**至少包括两个按钮**，分别用于确定进入事务和取消进入事务，在`def.json`中，解释器会自动将`value.key = "trigger_action"`的 `button` 判定为`trigger_card`的确认按钮，当用户点击`value.value = "yes"`的按钮后，图蓝会将当前`trigger_card`卡片内容替换为`trigger_confirm_card`的内容，如指引用户输入处理当前事务所需的信息等，当用户点击`value.value = "no"`的按钮后，图蓝会将当前`trigger_card`卡片内容替换为`trigger_cancel_card`的内容，如显示当前事务已被取消等。
 {% endhint %}
 
 上方卡片在消息界面呈现的效果：
