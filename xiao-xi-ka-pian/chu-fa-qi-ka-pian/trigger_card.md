@@ -65,7 +65,7 @@
 
 点击“是的”后，消息卡片会变换为`trigger_confirm_card`：
 
-![](<../../.gitbook/assets/image (3).png>)
+![](<../../.gitbook/assets/image (3) (1).png>)
 
 点击“不是”后，消息卡片会变换为`trigger_cancel_card`：
 
