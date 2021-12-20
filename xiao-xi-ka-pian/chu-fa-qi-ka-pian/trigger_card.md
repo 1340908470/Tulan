@@ -69,4 +69,4 @@
 
 点击“不是”后，消息卡片会变换为`trigger_cancel_card`：
 
-![](<../../.gitbook/assets/image (1).png>)
+![](<../../.gitbook/assets/image (1) (1).png>)
