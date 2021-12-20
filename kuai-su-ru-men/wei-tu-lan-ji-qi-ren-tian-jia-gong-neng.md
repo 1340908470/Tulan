@@ -46,4 +46,4 @@ Tulan未来预计提供多种配置方式，但核心是一样的，即通过编
 
 `trigger_confirm_card`是用户确认后显示的卡片，用户发送消息触发某一个事务后，Tulan机器人会向用户发送一个用于确认是否进入事务的卡片`trigger_card`，当用户点击按钮触发`trigger_action="yes"`后，其就会变为`trigger_confirm_card`，如在本例子里，当用户点击确定按钮后，卡片标题就会变为：“开启图蓝事务”，内容就会变为：“您开启了图蓝事务：中文转英文”。
 
-![](<../.gitbook/assets/image (5).png>)
+![trigger\_confirm\_card的例子](<../.gitbook/assets/image (5).png>)
