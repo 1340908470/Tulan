@@ -1,17 +1,9 @@
 ---
-description: Fork
+description: 在本节，你将按照步骤为Tulan添加第一个功能：中文转英文；
 ---
 
 # 为图蓝机器人添加功能
 
-{% hint style="info" %}
-**Good to know:** your product docs aren't just a reference of all your features! use them to encourage folks to perform certain actions and discover the value in your product.
-{% endhint %}
+## 进入配置文件
 
-## The basics
-
-Projects are containers for task lists. Think of them as a library for everything your team needs to get done to complete or ship a project.
-
-## Creating a project
-
-Hit the big '+' button in your sidebar and select 'New Project' from the menu that pops up. Give your project a name, and you're good to go!
+Tulan未来预计提供多种配置方式，但核心是一样的，即
