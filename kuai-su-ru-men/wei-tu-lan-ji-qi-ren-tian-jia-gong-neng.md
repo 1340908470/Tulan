@@ -30,4 +30,12 @@ Tulan未来预计提供多种配置方式，但核心是一样的，即通过编
 
 表示在用户确认进入事务后，Tulan进入的第一个指引（对用户来说，表现为Tulan向用户发送的消息卡片）。
 
-trigger\_card
+#### `trigger_card`
+
+`trigger_card`是当用户对机器人发送的消息中包含某个关键词触发了`trigger`后，在正式进入`process`前的确认卡片；`trigger_card`也属于[Broken link](broken-reference "mention")，而图蓝机器人的消息卡片是基于飞书机器人的，因此你可以通过[飞书消息卡片搭建工具](https://open.feishu.cn/tool/cardbuilder?from=howtoguide)快捷搭建消息卡片的基础部分。
+
+![trigger\_card结构](<../.gitbook/assets/image (4).png>)
+
+#### trigger\_cancel\_card
+
+#### trigger\_`confirm`\_card
