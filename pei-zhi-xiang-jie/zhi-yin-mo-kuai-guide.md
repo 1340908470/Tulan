@@ -1,5 +1,3 @@
 # 指引模块 guide
 
-{% hint style="info" %}
-**Good to know:** Splitting your product into fundamental concepts, objects, or areas can be a great way to let readers deep dive into the concepts that matter most to them.
-{% endhint %}
+**指引模块 guide** 用于对用户进行指引，该模块在用户侧具体表现为消息卡片，卡片内容由`guide_card`定义，引导用户输入一段文字、点击某个按钮、选择某个日期等，在指引过程中用户进行的各类输入，都会以键值对的形式保存在上下文中，供之后的其他`guide`或`handle`使用。在用户完成输入后，程序会调用索引为`success_handle_index`的`handle`，对数据进行一定的处理。
