@@ -33,14 +33,20 @@ func DoHandle(userId string, c SessionCtx) {
 	handlerName := handle.Handler
 
 	// 然后通过反射找到 对应于 def.json 中与 handler 字段同名的 handler
-	var handler handler2.Handler
+	handler := handler2.GetHandler()
 	handlerValue := reflect.ValueOf(handler)
 	handlerMethod := handlerValue.MethodByName(handlerName)
 	// 将def.json中的参数传到handler里，并调用
 	var paras []reflect.Value
 	for _, para := range handle.Params {
+		in := ""
 		// para为上下文中Params的键
-		in := c.Params[para]
+		// 如果包含@@则将其替换为上下文中的变量
+		if len(para) > 4 && para[:2] == "@@" && para[len(para)-2:] == "@@" {
+			in = c.Params[para[2:len(para)-2]].(string)
+		} else {
+			in = para
+		}
 		paras = append(paras, reflect.ValueOf(in))
 	}
 	values := handlerMethod.Call(paras)

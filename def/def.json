@@ -202,8 +202,372 @@
                 {
                     "index": 1,
                     "handler": "TranslateFromZhToEn",
-                    "params": ["guide_1_response"],
+                    "params": ["@@guide_1_response@@"],
                     "success_guide_index": 2,
+                    "failed_guide_index": 0,
+                    "next_guide_index": 0
+                }
+            ]
+        },
+        {
+            "name": "创建活动",
+            "trigger": {
+                "keywords": [
+                    "创建一个活动", "创建活动", "建个活动", "创建个活动"
+                ],
+                "guide_index": 1,
+                "trigger_card": {
+                    "config": {
+                        "wide_screen_mode": true
+                    },
+                    "elements": [
+                        {
+                            "tag": "div",
+                            "text": {
+                                "content": "您触发了图蓝事务：**@@process_name@@**，是吗？",
+                                "tag": "lark_md"
+                            }
+                        },
+                        {
+                            "tag": "action",
+                            "actions": [
+                                {
+                                    "tag": "button",
+                                    "text": {
+                                        "content": "😁  是的",
+                                        "tag": "plain_text"
+                                    },
+                                    "type": "default",
+                                    "value": {
+                                        "key": "trigger_action",
+                                        "value": "yes"
+                                    }
+                                },
+                                {
+                                    "tag": "button",
+                                    "text": {
+                                        "content": "😢  不是",
+                                        "tag": "plain_text"
+                                    },
+                                    "type": "default",
+                                    "value": {
+                                        "key": "trigger_action",
+                                        "value": "no"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "header": {
+                        "template": "turquoise",
+                        "title": {
+                            "content": "🤖️ 触发图蓝事务",
+                            "tag": "plain_text"
+                        }
+                    }
+                },
+                "trigger_cancel_card": {
+                    "config": {
+                        "wide_screen_mode": true
+                    },
+                    "elements": [
+                        {
+                            "tag": "div",
+                            "text": {
+                                "content": "您已结束图蓝事务：**@@process_name@@**",
+                                "tag": "lark_md"
+                            }
+                        }
+                    ],
+                    "header": {
+                        "template": "grey",
+                        "title": {
+                            "content": "🤖️  结束图蓝事务",
+                            "tag": "plain_text"
+                        }
+                    }
+                },
+                "trigger_confirm_card": {
+                    "config": {
+                        "wide_screen_mode": true
+                    },
+                    "elements": [
+                        {
+                            "tag": "div",
+                            "text": {
+                                "content": "您开启了图蓝事务：**@@process_name@@**",
+                                "tag": "lark_md"
+                            }
+                        }
+                    ],
+                    "header": {
+                        "template": "blue",
+                        "title": {
+                            "content": "🤖️  开启图蓝事务",
+                            "tag": "plain_text"
+                        }
+                    }
+                }
+            },
+            "guides": [
+                {
+                    "index": 1,
+                    "guide_card": {
+                        "config": {
+                            "wide_screen_mode": true
+                        },
+                        "elements": [
+                            {
+                                "tag": "div",
+                                "text": {
+                                    "content": "请问您要创建的活动的名称是什么",
+                                    "tag": "lark_md"
+                                }
+                            },
+                            {
+                                "tag": "action",
+                                "actions": [
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "终止事务",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "danger",
+                                        "value": {
+                                            "key": "trigger_action",
+                                            "value": "no"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "header": {
+                            "template": "yellow",
+                            "title": {
+                                "content": "🤖️  图蓝事务指引",
+                                "tag": "plain_text"
+                            }
+                        }
+                    },
+                    "success_handle_index": 1
+                },
+                {
+                    "index": 2,
+                    "guide_card": {
+                        "config": {
+                            "wide_screen_mode": true
+                        },
+                        "elements": [
+                            {
+                                "tag": "div",
+                                "text": {
+                                    "content": "请简单介绍一下活动的内容",
+                                    "tag": "lark_md"
+                                }
+                            },
+                            {
+                                "tag": "action",
+                                "actions": [
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "终止事务",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "danger",
+                                        "value": {
+                                            "key": "trigger_action",
+                                            "value": "no"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "header": {
+                            "template": "yellow",
+                            "title": {
+                                "content": "🤖️  图蓝事务指引",
+                                "tag": "plain_text"
+                            }
+                        }
+                    },
+                    "success_handle_index": 2
+                },
+                {
+                    "index": 3,
+                    "guide_card": {
+                        "config": {
+                            "wide_screen_mode": true
+                        },
+                        "elements": [
+                            {
+                                "tag": "div",
+                                "text": {
+                                    "content": "请问活动的时间是什么，请以 2006-01-02 15:04:05 的格式输入",
+                                    "tag": "lark_md"
+                                }
+                            },
+                            {
+                                "tag": "action",
+                                "actions": [
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "终止事务",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "danger",
+                                        "value": {
+                                            "key": "trigger_action",
+                                            "value": "no"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "header": {
+                            "template": "yellow",
+                            "title": {
+                                "content": "🤖️  图蓝事务指引",
+                                "tag": "plain_text"
+                            }
+                        }
+                    },
+                    "success_handle_index": 3
+                },
+                {
+                    "index": 4,
+                    "guide_card": {
+                        "config": {
+                            "wide_screen_mode": true
+                        },
+                        "elements": [
+                            {
+                                "tag": "div",
+                                "text": {
+                                    "content": "请问活动在哪里举办",
+                                    "tag": "lark_md"
+                                }
+                            },
+                            {
+                                "tag": "action",
+                                "actions": [
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "终止事务",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "danger",
+                                        "value": {
+                                            "key": "trigger_action",
+                                            "value": "no"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "header": {
+                            "template": "yellow",
+                            "title": {
+                                "content": "🤖️  图蓝事务指引",
+                                "tag": "plain_text"
+                            }
+                        }
+                    },
+                    "success_handle_index": 4
+                },
+                {
+                    "index": 5,
+                    "guide_card": {
+                        "config": {
+                            "wide_screen_mode": true
+                        },
+                        "elements": [
+                            {
+                                "tag": "div",
+                                "text": {
+                                    "content": "您已成功创建活动@@guide_1_response@@！",
+                                    "tag": "lark_md"
+                                }
+                            },
+                            {
+                                "tag": "action",
+                                "actions": [
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "继续创建",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "primary",
+                                        "value": {
+                                            "key": "move_to_guide",
+                                            "value": "1"
+                                        }
+                                    },
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "结束创建",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "danger",
+                                        "value": {
+                                            "key": "trigger_action",
+                                            "value": "no"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "header": {
+                            "template": "green",
+                            "title": {
+                                "content": "🤖️  执行结果",
+                                "tag": "plain_text"
+                            }
+                        }
+                    },
+                    "success_handle_index": 1
+                }
+            ],
+            "handles": [
+                {
+                    "index": 1,
+                    "handler": "EmptyHandler",
+                    "params": [],
+                    "success_guide_index": 2,
+                    "failed_guide_index": 0,
+                    "next_guide_index": 0
+                },
+                {
+                    "index": 2,
+                    "handler": "EmptyHandler",
+                    "params": [],
+                    "success_guide_index": 3,
+                    "failed_guide_index": 0,
+                    "next_guide_index": 0
+                },
+                {
+                    "index": 3,
+                    "handler": "EmptyHandler",
+                    "params": [],
+                    "success_guide_index": 4,
+                    "failed_guide_index": 0,
+                    "next_guide_index": 0
+                },
+                {
+                    "index": 4,
+                    "handler": "CreateActivity",
+                    "params": [
+                        "@@guide_1_response@@",
+                        "@@guide_2_response@@",
+                        "@@guide_3_response@@",
+                        "@@guide_4_response@@"
+                    ],
+                    "success_guide_index": 5,
                     "failed_guide_index": 0,
                     "next_guide_index": 0
                 }
