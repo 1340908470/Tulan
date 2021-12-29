@@ -434,6 +434,45 @@
                             }
                         }
                     },
+                    "regexp": "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}",
+                    "regexp_err_card": {
+                        "config": {
+                            "wide_screen_mode": true
+                        },
+                        "elements": [
+                            {
+                                "tag": "div",
+                                "text": {
+                                    "content": "输入格式错误，请以 2006-01-02 15:04:05 的格式输入",
+                                    "tag": "lark_md"
+                                }
+                            },
+                            {
+                                "tag": "action",
+                                "actions": [
+                                    {
+                                        "tag": "button",
+                                        "text": {
+                                            "content": "终止事务",
+                                            "tag": "plain_text"
+                                        },
+                                        "type": "danger",
+                                        "value": {
+                                            "key": "trigger_action",
+                                            "value": "no"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "header": {
+                            "template": "red",
+                            "title": {
+                                "content": "🤖️ 输入格式不匹配",
+                                "tag": "plain_text"
+                            }
+                        }
+                    },
                     "success_handle_index": 3
                 },
                 {

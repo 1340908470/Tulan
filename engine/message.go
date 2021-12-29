@@ -8,6 +8,7 @@ import (
 	json2 "encoding/json"
 	"errors"
 	"fmt"
+	"regexp"
 )
 
 type MessageEvent struct {
@@ -85,6 +86,17 @@ func HandleMessageEvent(event map[string]interface{}) error {
 			sessionCtx.NowType = TYPE_HANDLE
 			process := def.GetProcesses()[sessionCtx.ProcessIndex]
 			guide, _ := FindGuideByIndex(process, sessionCtx.NowIndex)
+
+			// 如果guide中regexp字段非空，则进行正则匹配，判断是否符合需求
+			if guide.Regexp != "" {
+				match, _ := regexp.MatchString(guide.Regexp, content.Text)
+				if !match {
+					// 如果不匹配，则
+					SendMessageRegexpErr(messageEvent.Sender.SenderId.UserId)
+					return nil
+				}
+			}
+
 			sessionCtx.NowIndex = guide.SuccessHandleIndex
 			UpdateSessionCtx(messageEvent.Sender.SenderId.UserId, sessionCtx)
 			DoHandle(messageEvent.Sender.SenderId.UserId, sessionCtx)
@@ -100,6 +112,24 @@ func SendMessageTrigger(userId string) {
 
 	process := def.GetProcesses()[sessionCtx.ProcessIndex]
 	file, _ := json2.Marshal(process.Trigger.TriggerCard)
+	ParseJson(&file, userId)
+
+	var messageCard model.MessageCard
+	err := json2.Unmarshal(file, &messageCard)
+	if err != nil {
+		return
+	}
+
+	SendMessage(messageCard, sessionCtx.ChatId)
+}
+
+// SendMessageRegexpErr 向用户校验失败的消息
+func SendMessageRegexpErr(userId string) {
+	sessionCtx, _ := GetSessionCtx(userId)
+
+	process := def.GetProcesses()[sessionCtx.ProcessIndex]
+	guide, _ := FindGuideByIndex(process, sessionCtx.NowIndex)
+	file, _ := json2.Marshal(guide.RegexpErrCard)
 	ParseJson(&file, userId)
 
 	var messageCard model.MessageCard
