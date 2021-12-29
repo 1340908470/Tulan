@@ -5,7 +5,7 @@ description: 通过总览快速了解图蓝机器人项目及本文档的结构
 # 💻 总览
 
 {% hint style="info" %}
-\*\*写在前面：\*\*本项目目前还在不断完善中，可能出现较大改动或文档内容与项目最新版本不一致的情况，如果您发现了本文档或者本项目中的错误
+**写在前面：**本项目目前还在不断完善中，可能出现较大改动或文档内容与项目最新版本不一致的情况，如果您发现了本文档或者本项目中的错误
 
 欢迎[贡献代码](https://github.com/1340908470/Tulan)或与我联系：<mark style="color:blue;">1340908470@qq.com</mark>
 {% endhint %}
@@ -26,8 +26,8 @@ description: 通过总览快速了解图蓝机器人项目及本文档的结构
 
 图蓝机器人项目是完全开源的，因此您可以基于此项目，创建并配置您自己的机器人，请阅读《创建自己的机器人》进行快速入门。
 
-{% content-ref url="kuai-su-ru-men/chuang-jian-zi-ji-de-ji-qi-ren.md" %}
-[chuang-jian-zi-ji-de-ji-qi-ren.md](kuai-su-ru-men/chuang-jian-zi-ji-de-ji-qi-ren.md)
+{% content-ref url="broken-reference" %}
+[Broken link](broken-reference)
 {% endcontent-ref %}
 
 ### 配置详情

@@ -5,7 +5,6 @@
 ## 💡 快速入门
 
 * [为图蓝机器人添加功能](kuai-su-ru-men/wei-tu-lan-ji-qi-ren-tian-jia-gong-neng.md)
-* [创建自己的机器人](kuai-su-ru-men/chuang-jian-zi-ji-de-ji-qi-ren.md)
 
 ## ⚒ 配置详解
 
